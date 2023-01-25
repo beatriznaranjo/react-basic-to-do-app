@@ -5,6 +5,9 @@ function App() {
   return (
     <div className="App">
       <header className="App-header">
+        <h1>Taller 01</h1>
+        <h2>Web app, Backend API & Mobile Apps</h2>
+        <h3>create-react-app</h3>
         <img src={logo} className="App-logo" alt="logo" />
         <p>
           Edit <code>src/App.js</code> and save to reload.
