@@ -1,62 +1,56 @@
-import React from 'react';
-import logo from './logo.svg';
-import ToDoItem from './components/ToDoItem';
-import './App.css';
+import React, { useState } from "react";
+import ToDoList from "./components/ToDoList";
+import "./App.css";
 
-class App extends React.Component {
-  constructor() {
-    super();
-    this.state = {
-      todos: [
-        {id: 1, text: 'Hacer tarea'},
-        {id: 2, text: 'Enviar emails'},
-        {id: 3, text: 'Terminar tutorial'}
-      ],
-      newTodo: 'Ingrese tarea',
-    };
-  }
+function App() {
+  const [todos, setTodos] = useState([
+    { id: 1, text: "Task 1", completed: false },
+    { id: 2, text: "Task 2", completed: true },
+    { id: 3, text: "Task 3", completed: false },
+  ]);
 
-  render() {
-    return (
+  const [inputValue, setInputValue] = useState("");
+
+  const handleToggle = (id) => {
+    const updatedTodos = todos.map((todo) => {
+      if (todo.id === id) {
+        return { ...todo, completed: !todo.completed };
+      } else {
+        return todo;
+      }
+    });
+    setTodos(updatedTodos);
+  };
+
+  const handleFormSubmit = (e) => {
+    e.preventDefault();
+    const newId = todos.length + 1;
+    const newTodo = { id: newId, text: inputValue, completed: false };
+    setTodos([...todos, newTodo]);
+    setInputValue("");
+  };
+
+  return (
     <div className="App">
       <header className="App-header">
         <h2>To Do App</h2>
-        <h3>setState, handleChange, handleSubmit</h3>
-        <ul>
-          {this.state.todos.map((todo) => {
-            return (
-            <ToDoItem key={todo.id} text={todo.text}/>
-            );
-          })}
-        </ul>
-        <img src={logo} className="App-logo" alt="logo" />
-        <form onSubmit={this.handleSubmit}>
-          <input 
-            type="text" 
-            value={this.state.newTodo} 
-            onChange={this.handleChange}
-            placeholder="insert new To Do"
+
+        <ToDoList
+          todos={todos}
+          onToggle={handleToggle}
+          className="to-do-list"
+        />
+        <form onSubmit={handleFormSubmit}>
+          <input
+            type="text"
+            value={inputValue}
+            onChange={(e) => setInputValue(e.target.value)}
           />
-          <button type='submit'>
-            Add To Do
-          </button>
+          <button type="submit">Add Todo</button>
         </form>
       </header>
     </div>
   );
-  }
-
-  handleChange = (event) => {
-    this.setState({ newTodo: event.target.value })
-  }
-
-  handleSubmit = event => {
-    event.preventDefault();
-    this.setState( prevState => ({
-      todos: [...prevState.todos, {id: Date.now(), text: prevState.newTodo}],
-      newTodo: '',
-    })); 
-  }
 }
 
 export default App;

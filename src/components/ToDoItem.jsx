@@ -1,15 +1,20 @@
-import React from 'react';
+import React from "react";
 
-class ToDoItem extends React.Component {
-    render() {
-        return (
-            <li>
-                {this.props.text}
-            </li>
-        )   
-    }
-}
+const ToDoItem = ({ id, text, completed, onToggle }) => {
+  const handleCheckboxClick = () => {
+    onToggle(id);
+  };
 
+  return (
+    <ul>
+      <input
+        type="checkbox"
+        checked={completed}
+        onChange={handleCheckboxClick}
+      />
+      <span>{text}</span>
+    </ul>
+  );
+};
 
-export default ToDoItem; 
-
+export default ToDoItem;
